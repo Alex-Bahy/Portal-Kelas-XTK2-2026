@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Portal Akademik — X Manajemen Perkantoran & Layanan Bisnis</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  /* Brand MPLB — Warm Burgundy × Cream × Brass */
+  --burg:#6B1F34;--burg2:#8B2E47;--burg3:#A8385A;
+  --cream:#FAF6F0;--cream2:#F2EBE0;--cream3:#E8DDD0;
+  --brass:#B8860B;--brass2:#D4A017;--brass3:#F0C830;
+  --forest:#1A4D3A;--forest2:#2D6E52;--forest-bg:#E6F2ED;
+  --cobalt:#1B3A6B;--cobalt2:#2952A3;--cobalt-bg:#E8EFF8;
+  --rose:#7B2D42;--rose-bg:#F8EBF0;
+  --bg:#FAF6F0;--surface:#FFFFFF;
+  --border:rgba(107,31,52,0.10);
+  --text:#2A1A1F;--muted:#7A5A65;
+  --r:14px;--r2:22px;
+  --nav-h:66px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased;}
+
+/* ────────────────── FAB BACK ────────────────── */
+.fab-back{
+  position:fixed;bottom:24px;right:24px;z-index:300;
+  display:flex;align-items:center;gap:8px;
+  background:var(--burg);color:#fff;
+  font-size:13px;font-weight:700;
+  padding:12px 20px;border-radius:40px;
+  text-decoration:none;
+  box-shadow:0 6px 28px rgba(107,31,52,.38);
+  border:1.5px solid rgba(255,255,255,.12);
+  transition:transform .2s,box-shadow .2s,background .2s;
+  white-space:nowrap;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.fab-back:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(107,31,52,.44);background:var(--burg2);}
+.fab-back svg{width:15px;height:15px;flex-shrink:0;}
+@media(max-width:480px){.fab-back{bottom:16px;right:16px;padding:10px 14px;font-size:12px;}}
+
+/* ────────────────── HERO ────────────────── */
+.hero{background:var(--burg);position:relative;overflow:hidden;}
+
+/* Decorative geometric pattern — office paper feel */
+.hero-pattern{position:absolute;inset:0;pointer-events:none;opacity:.06;
+  background-image:
+    repeating-linear-gradient(0deg,#fff 0,#fff 1px,transparent 0,transparent 48px),
+    repeating-linear-gradient(90deg,#fff 0,#fff 1px,transparent 0,transparent 48px);
+}
+.hero-glow{position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 70% at 95% -5%,rgba(184,134,11,.28) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 50% at 0% 100%,rgba(26,77,58,.22) 0%,transparent 55%),
+    radial-gradient(ellipse 35% 40% at 50% 115%,rgba(27,58,107,.18) 0%,transparent 60%);
+}
+/* Decorative corner ornament */
+.hero-corner{position:absolute;top:0;right:0;width:clamp(160px,25vw,300px);height:clamp(160px,25vw,300px);pointer-events:none;opacity:.10;}
+.hero-corner svg{width:100%;height:100%;}
+
+/* ────────────────── NAV ────────────────── */
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(16px,4vw,52px);height:var(--nav-h);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  position:sticky;top:0;z-index:100;
+  background:var(--burg);
+  backdrop-filter:blur(12px);
+}
+.nav-brand{display:flex;align-items:center;gap:12px;min-width:0;flex:1;}
+.nav-logo{
+  width:40px;height:40px;border-radius:10px;flex-shrink:0;
+  background:linear-gradient(135deg,var(--brass) 0%,var(--brass2) 100%);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:700;font-size:13px;color:var(--burg);letter-spacing:-.3px;
+  font-family:'DM Serif Display',serif;
+}
+.nav-school{color:rgba(255,255,255,.88);font-size:13px;font-weight:600;line-height:1.3;min-width:0;overflow:hidden;}
+.nav-school .full{display:block;}
+.nav-school .short{display:none;}
+.nav-school span{display:block;font-size:11px;font-weight:400;color:rgba(255,255,255,.42);}
+.nav-year{
+  background:rgba(184,134,11,.20);
+  border:1px solid rgba(184,134,11,.38);
+  color:var(--brass3);
+  font-size:11px;font-weight:700;
+  padding:5px 13px;border-radius:20px;
+  letter-spacing:.05em;white-space:nowrap;flex-shrink:0;margin-left:10px;
+}
+@media(max-width:540px){
+  .nav-school .full{display:none;}
+  .nav-school .short{display:block;}
+  .nav-year{font-size:10px;padding:4px 9px;}
+}
+
+/* ────────────────── HERO BODY ────────────────── */
+.hero-body{
+  position:relative;z-index:2;
+  text-align:center;
+  padding:clamp(44px,8vw,88px) clamp(16px,5vw,48px) clamp(36px,5vw,60px);
+  max-width:820px;margin:0 auto;
+}
+.hero-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.65);
+  font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  padding:6px 16px;border-radius:20px;margin-bottom:22px;
+}
+.hero-pill-dot{width:6px;height:6px;border-radius:50%;background:var(--brass2);flex-shrink:0;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(.8);}}
+
+.hero-title{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(30px,6.5vw,72px);
+  font-weight:400;
+  color:#fff;
+  line-height:1.05;
+  letter-spacing:-.5px;
+  margin-bottom:8px;
+}
+.hero-title em{font-style:italic;color:var(--brass3);}
+.hero-sub{
+  font-size:clamp(13px,2vw,15px);
+  color:rgba(255,255,255,.50);
+  line-height:1.8;
+  max-width:500px;margin:0 auto 38px;
+  font-weight:300;
+}
+
+.stats{
+  display:flex;border-radius:18px;overflow:hidden;
+  border:1px solid rgba(255,255,255,.10);
+  background:rgba(255,255,255,.06);
+  width:100%;max-width:440px;margin:0 auto;
+}
+.stat{flex:1;padding:clamp(14px,3vw,22px) clamp(12px,3vw,36px);text-align:center;border-right:1px solid rgba(255,255,255,.08);}
+.stat:last-child{border-right:none;}
+.stat-n{font-size:clamp(20px,4vw,30px);font-weight:700;color:#fff;line-height:1;font-family:'DM Serif Display',serif;}
+.stat-n b{color:var(--brass3);}
+.stat-l{font-size:10px;font-weight:500;color:rgba(255,255,255,.36);text-transform:uppercase;letter-spacing:.08em;margin-top:5px;}
+
+/* WAVE — warm cream */
+.wave{line-height:0;position:relative;z-index:2;}
+.wave svg{display:block;width:100%;}
+
+/* ────────────────── LAYOUT ────────────────── */
+.wrap{max-width:1140px;margin:0 auto;padding:0 clamp(14px,4vw,44px);}
+.sec{padding:clamp(40px,5vw,72px) 0 0;}
+.sec-last{padding-bottom:clamp(56px,7vw,88px);}
+.sec-head{margin-bottom:clamp(22px,3vw,40px);}
+.sec-tag{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:5px 14px;border-radius:20px;margin-bottom:10px;}
+.tag-cobalt{background:var(--cobalt-bg);color:var(--cobalt);}
+.tag-forest{background:var(--forest-bg);color:var(--forest);}
+.tag-brass{background:#FDF3D8;color:#7A5800;}
+.sec-title{font-family:'DM Serif Display',serif;font-size:clamp(22px,3.8vw,40px);font-weight:400;color:var(--burg);line-height:1.12;margin-bottom:9px;}
+.sec-desc{font-size:13px;color:var(--muted);line-height:1.75;max-width:540px;font-weight:400;}
+
+/* ────────────────── DATA HERO ────────────────── */
+.data-hero{
+  background:linear-gradient(130deg,var(--burg) 0%,var(--burg2) 55%,#A03050 100%);
+  border-radius:var(--r2);
+  padding:clamp(22px,4vw,44px) clamp(20px,4vw,48px);
+  display:grid;grid-template-columns:1fr auto;
+  align-items:center;gap:24px;
+  position:relative;overflow:hidden;margin-bottom:24px;
+}
+.data-hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 55% 90% at 100% 50%,rgba(184,134,11,.22) 0%,transparent 65%);
+}
+.data-hero::after{
+  content:'';position:absolute;
+  top:-40px;left:-40px;
+  width:220px;height:220px;
+  border-radius:50%;
+  background:rgba(255,255,255,.03);
+  pointer-events:none;
+}
+.data-hero-text{position:relative;z-index:1;}
+.data-hero-badge{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(184,134,11,.22);
+  border:1px solid rgba(184,134,11,.38);
+  color:var(--brass3);
+  font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:5px 13px;border-radius:20px;margin-bottom:12px;
+}
+.data-hero-title{font-family:'DM Serif Display',serif;font-size:clamp(18px,3.2vw,30px);font-weight:400;color:#fff;line-height:1.18;margin-bottom:8px;}
+.data-hero-title em{font-style:italic;color:var(--brass3);}
+.data-hero-sub{font-size:12px;color:rgba(255,255,255,.48);line-height:1.7;margin-bottom:18px;font-weight:300;}
+.data-hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;}
+.data-hero-note{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:10px;padding:7px 13px;
+  font-size:11px;color:rgba(255,255,255,.52);font-weight:500;white-space:nowrap;
+}
+.data-hero-visual{
+  position:relative;z-index:1;
+  width:clamp(90px,12vw,155px);height:clamp(90px,12vw,155px);flex-shrink:0;
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:20px;
+  display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;
+}
+.big-icon{font-size:clamp(30px,5vw,50px);line-height:1;}
+.vis-label{font-size:10px;font-weight:700;color:rgba(255,255,255,.38);text-transform:uppercase;letter-spacing:.09em;}
+.btn-data{
+  display:inline-flex;align-items:center;gap:9px;
+  background:linear-gradient(135deg,var(--brass) 0%,var(--brass2) 100%);
+  color:var(--burg);
+  font-size:13px;font-weight:700;
+  padding:12px 22px;border-radius:12px;
+  text-decoration:none;border:none;cursor:pointer;
+  transition:transform .15s,opacity .15s,box-shadow .15s;
+  font-family:'DM Sans',sans-serif;white-space:nowrap;touch-action:manipulation;
+  box-shadow:0 4px 16px rgba(184,134,11,.30);
+}
+.btn-data:hover{transform:translateY(-2px);opacity:.92;box-shadow:0 8px 24px rgba(184,134,11,.40);}
+.btn-data svg{width:14px;height:14px;flex-shrink:0;}
+@media(max-width:580px){.data-hero{grid-template-columns:1fr;}.data-hero-visual{display:none;}}
+
+/* ────────────────── GROUP DIVIDER ────────────────── */
+.group-div{
+  display:flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);
+  margin:clamp(24px,4vw,44px) 0 16px;
+}
+.group-div::after{content:'';flex:1;height:1px;background:var(--border);}
+.group-div-icon{
+  width:28px;height:28px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;flex-shrink:0;
+}
+
+/* ────────────────── SUBJECT GRID ────────────────── */
+.subj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,295px),1fr));gap:13px;}
+
+/* ────────────────── SUBJECT CARD ────────────────── */
+.subj-card{
+  background:var(--surface);
+  border:1.5px solid var(--border);
+  border-radius:var(--r);
+  padding:17px 17px 14px;
+  display:flex;flex-direction:column;gap:12px;
+  position:relative;overflow:hidden;
+  transition:transform .22s,box-shadow .22s,border-color .22s;
+  -webkit-tap-highlight-color:transparent;
+}
+.subj-card:hover{transform:translateY(-4px);box-shadow:0 14px 44px rgba(107,31,52,.10);border-color:rgba(107,31,52,.22);}
+
+/* accent top bar */
+.subj-card::after{content:'';position:absolute;top:0;left:0;right:0;height:3.5px;}
+.card-u::after{background:linear-gradient(90deg,var(--cobalt),var(--cobalt2));}
+.card-k::after{background:linear-gradient(90deg,var(--forest),var(--forest2));}
+.card-l::after{background:linear-gradient(90deg,var(--brass),var(--brass2));}
+
+/* subtle dot pattern on card surface */
+.subj-card::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(107,31,52,.04) 1px,transparent 1px);
+  background-size:20px 20px;
+  opacity:0;transition:opacity .3s;
+}
+.subj-card:hover::before{opacity:1;}
+
+.card-row{display:flex;align-items:flex-start;gap:12px;}
+.card-num{
+  width:34px;height:34px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;font-weight:700;flex-shrink:0;
+  font-family:'DM Serif Display',serif;
+}
+.card-u .card-num{background:var(--cobalt-bg);color:var(--cobalt);}
+.card-k .card-num{background:var(--forest-bg);color:var(--forest);}
+.card-l .card-num{background:#FDF3D8;color:#7A5800;}
+.card-info{flex:1;min-width:0;}
+.card-name{font-size:13px;font-weight:600;color:var(--text);line-height:1.38;margin-bottom:3px;}
+.card-type{font-size:11px;font-weight:600;letter-spacing:.04em;}
+.card-u .card-type{color:var(--cobalt2);}
+.card-k .card-type{color:var(--forest2);}
+.card-l .card-type{color:var(--brass);}
+.card-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+
+/* ────────────────── LINK BUTTON ────────────────── */
+.link-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:8px 14px;border-radius:10px;
+  font-size:12px;font-weight:700;text-decoration:none;
+  letter-spacing:.01em;
+  transition:transform .15s,opacity .15s,box-shadow .15s;
+  white-space:nowrap;
+  -webkit-tap-highlight-color:transparent;touch-action:manipulation;
+}
+.link-btn:hover{transform:translateY(-1px);opacity:.85;}
+.link-on{background:var(--burg);color:#fff;box-shadow:0 3px 12px rgba(107,31,52,.25);}
+.link-on:hover{box-shadow:0 6px 20px rgba(107,31,52,.35);}
+.link-off{background:#F0EDEA;color:#C0B0B5;pointer-events:none;cursor:not-allowed;}
+.link-btn svg{width:12px;height:12px;flex-shrink:0;}
+.badge{font-size:10px;font-weight:700;padding:3px 10px;border-radius:8px;letter-spacing:.04em;text-transform:uppercase;}
+.badge-on{background:#DCF5EB;color:#1A5C3A;}
+.badge-off{background:#FDF0E8;color:#92501E;}
+
+/* ────────────────── EDIT PANEL ────────────────── */
+.card-edit-btn{
+  position:absolute;top:14px;right:14px;
+  width:29px;height:29px;border-radius:9px;
+  background:var(--cobalt-bg);
+  border:1px solid rgba(27,58,107,.15);
+  color:var(--cobalt);
+  font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  opacity:0;transition:opacity .2s,transform .15s,background .15s;
+  z-index:5;
+}
+.subj-card:hover .card-edit-btn{opacity:1;}
+.card-edit-btn:hover{transform:scale(1.1);background:var(--cobalt);color:#fff;}
+.edit-panel{
+  display:none;flex-direction:column;gap:9px;
+  background:var(--cobalt-bg);
+  border:1.5px solid rgba(27,58,107,.18);
+  border-radius:11px;padding:12px 14px;
+  animation:slideDown .2s ease;
+}
+.edit-panel.open{display:flex;}
+@keyframes slideDown{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:translateY(0);}}
+.edit-panel label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--cobalt);}
+.edit-panel-row{display:flex;gap:6px;flex-wrap:wrap;}
+.edit-inp{
+  flex:1;min-width:120px;
+  border:1.5px solid rgba(27,58,107,.22);
+  border-radius:9px;padding:8px 11px;
+  font-size:12px;font-weight:500;
+  font-family:'DM Sans',sans-serif;
+  color:var(--burg);outline:none;background:#fff;
+  transition:border-color .2s;-webkit-appearance:none;
+}
+.edit-inp:focus{border-color:var(--cobalt);}
+.edit-inp::placeholder{color:#C0B8C0;}
+.edit-save-btn{
+  padding:8px 13px;border-radius:9px;background:var(--burg);color:#fff;
+  font-size:12px;font-weight:700;border:none;cursor:pointer;white-space:nowrap;
+  font-family:'DM Sans',sans-serif;transition:opacity .15s,transform .15s;touch-action:manipulation;
+}
+.edit-save-btn:hover{opacity:.88;transform:translateY(-1px);}
+.edit-clear-btn{
+  padding:8px 11px;border-radius:9px;background:#FDECEA;color:#991B1B;
+  font-size:12px;font-weight:700;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;transition:opacity .15s;touch-action:manipulation;
+}
+.edit-clear-btn:hover{opacity:.8;}
+.edit-hint{font-size:10px;color:var(--muted);line-height:1.6;}
+
+/* ────────────────── TOAST ────────────────── */
+#toast{
+  position:fixed;bottom:82px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--burg);color:#fff;
+  padding:10px 22px;border-radius:40px;
+  font-size:13px;font-weight:600;
+  box-shadow:0 8px 32px rgba(107,31,52,.32);
+  opacity:0;pointer-events:none;
+  transition:opacity .3s,transform .3s;
+  z-index:500;white-space:nowrap;
+  max-width:88vw;overflow:hidden;text-overflow:ellipsis;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ────────────────── MODAL ────────────────── */
+#modal{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(20,8,12,.74);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  display:flex;align-items:center;justify-content:center;padding:16px;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+#modal.open{opacity:1;pointer-events:all;}
+.modal-box{
+  background:#fff;border-radius:24px;
+  padding:clamp(24px,4vw,44px) clamp(20px,4vw,40px) clamp(20px,3vw,36px);
+  max-width:400px;width:100%;text-align:center;
+  transform:scale(.93) translateY(14px);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+  position:relative;max-height:92vh;overflow-y:auto;
+  border:1.5px solid var(--cream3);
+}
+#modal.open .modal-box{transform:scale(1) translateY(0);}
+.modal-close{
+  position:absolute;top:14px;right:16px;
+  background:none;border:none;cursor:pointer;
+  font-size:20px;color:#BBB;line-height:1;padding:4px;
+  -webkit-tap-highlight-color:transparent;
+}
+.modal-close:hover{color:#666;}
+.modal-icon{
+  width:64px;height:64px;border-radius:20px;margin:0 auto 18px;
+  background:linear-gradient(135deg,var(--burg) 0%,var(--burg3) 100%);
+  display:flex;align-items:center;justify-content:center;font-size:28px;
+  box-shadow:0 8px 24px rgba(107,31,52,.28);
+}
+.modal-title{font-family:'DM Serif Display',serif;font-size:24px;font-weight:400;color:var(--burg);margin-bottom:7px;}
+.modal-sub{font-size:12px;color:var(--muted);line-height:1.65;margin-bottom:22px;font-weight:400;}
+.modal-label{text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin-bottom:8px;}
+.modal-inp-wrap{position:relative;margin-bottom:14px;}
+.modal-inp{
+  width:100%;border:1.5px solid #E0D8D0;border-radius:12px;
+  padding:14px 46px 14px 18px;
+  font-size:16px;letter-spacing:.06em;
+  font-family:'DM Sans',sans-serif;color:var(--burg);
+  outline:none;transition:border-color .2s;-webkit-appearance:none;
+}
+.modal-inp:focus{border-color:var(--burg2);}
+.modal-inp::placeholder{letter-spacing:0;color:#C8BEC0;font-size:14px;}
+.modal-eye{
+  position:absolute;right:13px;top:50%;transform:translateY(-50%);
+  background:none;border:none;cursor:pointer;font-size:18px;color:#CCC;
+  transition:color .2s;padding:4px;
+}
+.modal-eye:hover{color:#888;}
+.modal-btn{
+  width:100%;
+  background:linear-gradient(135deg,var(--burg) 0%,var(--burg2) 100%);
+  border:none;border-radius:12px;padding:14px;
+  font-size:14px;font-weight:700;color:#fff;cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  transition:transform .15s,opacity .15s,box-shadow .15s;touch-action:manipulation;
+  box-shadow:0 4px 16px rgba(107,31,52,.28);
+}
+.modal-btn:hover{transform:translateY(-1px);opacity:.92;box-shadow:0 8px 24px rgba(107,31,52,.36);}
+.modal-err{margin-top:11px;font-size:12px;color:#DC2626;display:none;animation:shake .35s ease;}
+.modal-err.show{display:block;}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+
+/* ────────────────── FOOTER ────────────────── */
+footer{
+  background:var(--burg);
+  padding:clamp(28px,4vw,44px) clamp(16px,4vw,52px);
+  text-align:center;color:rgba(255,255,255,.32);font-size:12px;line-height:2;
+}
+footer strong{color:rgba(255,255,255,.65);}
+footer .footer-divider{width:40px;height:1px;background:rgba(255,255,255,.15);margin:12px auto;}
+
+/* TOUCH: always show edit btn */
+@media(hover:none){
+  .card-edit-btn{opacity:1;}
+  .subj-card:hover{transform:none;box-shadow:none;}
+}
+
+/* card entrance animation */
+.subj-card{opacity:0;transform:translateY(18px);}
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<!-- FAB KEMBALI -->
+<a class="fab-back" href="https://alex-bahy.github.io/Dashboard-Penginputan-Nilai-Semester-Genap-TP-2025-2026/" target="_blank" rel="noopener" aria-label="Kembali ke Dashboard">
+  <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.3"><path d="M10 3L5 8l5 5"/></svg>
+  Kembali ke Dashboard
+</a>
+
+<!-- MODAL PASSWORD -->
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()" aria-label="Tutup">✕</button>
+    <div class="modal-icon">📁</div>
+    <div class="modal-title" id="modalTitle">Akses Wali Kelas</div>
+    <div class="modal-sub">Halaman ini khusus untuk Wali Kelas dalam menginput dan mengelola data siswa X MPLB. Masukkan kata sandi untuk melanjutkan.</div>
+    <div class="modal-label">Kata Sandi Wali Kelas</div>
+    <div class="modal-inp-wrap">
+      <input type="password" id="pwInput" class="modal-inp" placeholder="Masukkan kata sandi…" onkeydown="if(event.key==='Enter')tryUnlock()">
+      <button class="modal-eye" onclick="togglePw()" id="eyeBtn" title="Tampilkan">👁</button>
+    </div>
+    <button class="modal-btn" onclick="tryUnlock()">🔓 &nbsp; Masuk ke Data Siswa</button>
+    <div class="modal-err" id="modalErr">⚠ Kata sandi salah. Silakan coba lagi.</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════ HERO ════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-glow"></div>
+
+  <!-- Decorative geometric corner -->
+  <div class="hero-corner">
+    <svg viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="300" cy="0" r="250" stroke="white" stroke-width="1" fill="none"/>
+      <circle cx="300" cy="0" r="200" stroke="white" stroke-width="1" fill="none"/>
+      <circle cx="300" cy="0" r="150" stroke="white" stroke-width="1" fill="none"/>
+      <circle cx="300" cy="0" r="100" stroke="white" stroke-width="1" fill="none"/>
+      <line x1="0" y1="0" x2="300" y2="300" stroke="white" stroke-width="1"/>
+      <line x1="100" y1="0" x2="300" y2="200" stroke="white" stroke-width="1"/>
+      <line x1="200" y1="0" x2="300" y2="100" stroke="white" stroke-width="1"/>
+    </svg>
+  </div>
+
+  <nav class="nav">
+    <div class="nav-brand">
+      <div class="nav-logo">MP</div>
+      <div class="nav-school">
+        <span class="full">X Manajemen Perkantoran &amp; Layanan Bisnis</span>
+        <span class="short">X MPLB</span>
+        <span>SMK · Portal Akademik Guru</span>
+      </div>
+    </div>
+    <div class="nav-year">TP 2025/2026</div>
+  </nav>
+
+  <div class="hero-body">
+    <div class="hero-pill"><span class="hero-pill-dot"></span>Portal Nilai &amp; Akademik</div>
+    <h1 class="hero-title">Nilai &amp; Rekap<br><em>Kelas X MPLB</em></h1>
+    <p class="hero-sub">Platform input dan rekap nilai mata pelajaran untuk semua guru, serta pengelolaan data siswa khusus Wali Kelas — profesional, rapi, terstruktur.</p>
+    <div class="stats">
+      <div class="stat"><div class="stat-n">12<b>+</b></div><div class="stat-l">Mata Pelajaran</div></div>
+      <div class="stat"><div class="stat-n" style="color:var(--brass3);">3</div><div class="stat-l">Kelompok Mapel</div></div>
+      <div class="stat"><div class="stat-n">2026</div><div class="stat-l">Tahun Pelajaran</div></div>
+    </div>
+  </div>
+
+  <div class="wave">
+    <svg viewBox="0 0 1440 64" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+      <path d="M0,32 C200,64 380,0 600,28 C780,52 960,4 1140,30 C1280,50 1380,18 1440,32 L1440,64 L0,64 Z" fill="#FAF6F0"/>
+    </svg>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+  <!-- DATA SISWA -->
+  <section class="sec">
+    <div class="sec-head">
+      <div class="sec-tag tag-brass">📁 Data Administrasi</div>
+      <h2 class="sec-title">Data Siswa Kelas X MPLB</h2>
+      <p class="sec-desc">Halaman khusus Wali Kelas untuk menginput dan mengelola data lengkap siswa — profil, absensi, dan catatan administratif.</p>
+    </div>
+
+    <div class="data-hero">
+      <div class="data-hero-text">
+        <div class="data-hero-badge">🔐 Input Data — Wali Kelas</div>
+        <div class="data-hero-title">Database Siswa<br><em>X MPLB 2025/2026</em></div>
+        <div class="data-hero-sub">Wali Kelas dapat menginput dan memperbarui data lengkap seluruh siswa — termasuk profil, NIS, NISN, JK, Agama, dan keterangan lainnya.</div>
+        <div class="data-hero-actions">
+          <button class="btn-data" onclick="openModal()">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="2" y="7" width="12" height="8" rx="2"/><path d="M5 7V5a3 3 0 0 1 6 0v2"/></svg>
+            Buka Data Siswa
+          </button>
+          <div class="data-hero-note">🔑 Khusus Wali Kelas</div>
+        </div>
+      </div>
+      <div class="data-hero-visual">
+        <div class="big-icon">📁</div>
+        <div class="vis-label">Data Siswa</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NILAI MAPEL -->
+  <section class="sec sec-last">
+    <div class="sec-head">
+      <div class="sec-tag tag-cobalt">📚 Kurikulum Merdeka</div>
+      <h2 class="sec-title">Nilai Mata Pelajaran</h2>
+      <p class="sec-desc">Setiap guru dapat membuka halaman nilai sesuai mata pelajaran yang diampu. <strong style="color:var(--cobalt);">Klik ✏️ pada kartu untuk menambahkan atau mengubah link.</strong></p>
+    </div>
+
+    <div class="group-div">
+      <div class="group-div-icon" style="background:var(--cobalt-bg);">🎓</div>
+      Mata Pelajaran Umum
+    </div>
+    <div class="subj-grid" id="grid-umum"></div>
+
+    <div class="group-div">
+      <div class="group-div-icon" style="background:var(--forest-bg);">💼</div>
+      Mata Pelajaran Kejuruan
+    </div>
+    <div class="subj-grid" id="grid-kejuruan"></div>
+
+    <div class="group-div">
+      <div class="group-div-icon" style="background:#EFF6EF;">🌿</div>
+      Mata Pelajaran Muatan Lokal
+    </div>
+    <div class="subj-grid" id="grid-mulok"></div>
+
+    <div class="group-div">
+      <div class="group-div-icon" style="background:#FDF3D8;">📒</div>
+      Ledger &amp; Rekap
+    </div>
+    <div class="subj-grid" id="grid-ledger"></div>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <strong>Kelas X Manajemen Perkantoran &amp; Layanan Bisnis</strong>
+  <div class="footer-divider"></div>
+  Portal Akademik Guru · Tahun Pelajaran 2025/2026<br>
+  <span style="font-size:11px;opacity:.5;">Data Siswa — input &amp; kelola oleh Wali Kelas · Input Nilai — terbuka untuk semua guru mata pelajaran</span>
+</footer>
+
+<script>
+const PASS = 'SMKBisa';
+const DATA_URL = 'https://alex-bahy.github.io/Data-siswa-XMPLB-2026/';
+const SK = 'xmplb_mapel_links_v1';
+
+/*
+  ╔══════════════════════════════════════════════════════════╗
+  ║  LINK PERMANEN — berlaku di SEMUA perangkat              ║
+  ║  Tambahkan link mapel di sini agar tidak hilang          ║
+  ║  saat buka di HP/laptop/tablet lain.                     ║
+  ║                                                          ║
+  ║  Format:  'ID_MAPEL' : 'https://link-github-pages/'      ║
+  ╚══════════════════════════════════════════════════════════╝
+*/
+const DEFAULTS = {
+  '01': 'https://alex-bahy.github.io/Pend-Agama-XMPLB-2026/',
+  '02': 'https://alex-bahy.github.io/Pend.-Pancasila-XMPLB-2026/',
+  '03': 'https://alex-bahy.github.io/B.-Indonesia-XMPLB-2026/',
+  '04': 'https://alex-bahy.github.io/PJOK-XMPLB-2026/',
+  '05': 'https://alex-bahy.github.io/Sejarah-XMPLB-2026/',
+  '06': 'https://alex-bahy.github.io/Seni-Budaya-XMPLB-2026/',
+  '07': 'https://alex-bahy.github.io/Matematika-XMPLB-2026/',
+  '08': 'https://alex-bahy.github.io/B.-Inggris-XMPLB-2026/',
+  '09': 'https://alex-bahy.github.io/Informatika-XMPLB-2026/',
+  '10': 'https://alex-bahy.github.io/Projek-IPAS-XMPLB-2026/',
+  '11': 'https://alex-bahy.github.io/Dasar-Program-Keahlian-XMPLB-2026/',
+  '12': 'https://alex-bahy.github.io/Muatan-Lokal-XMPLB-2026/',
+  'L1': 'https://alex-bahy.github.io/Ledger-XMPLB-2026/',
+};
+
+const SUBJECTS = {
+  umum: [
+    { id:'01', name:'Pendidikan Agama dan Budi Pekerti',              type:'Mapel Umum',     cls:'card-u' },
+    { id:'02', name:'Pendidikan Pancasila',                           type:'Mapel Umum',     cls:'card-u' },
+    { id:'03', name:'Bahasa Indonesia',                               type:'Mapel Umum',     cls:'card-u' },
+    { id:'04', name:'Pendidikan Jasmani, Olahraga dan Kesehatan',     type:'Mapel Umum',     cls:'card-u' },
+    { id:'05', name:'Sejarah',                                        type:'Mapel Umum',     cls:'card-u' },
+    { id:'06', name:'Seni Budaya',                                    type:'Mapel Umum',     cls:'card-u' },
+  ],
+  kejuruan: [
+    { id:'07', name:'Matematika',                                     type:'Mapel Kejuruan', cls:'card-k' },
+    { id:'08', name:'Bahasa Inggris',                                 type:'Mapel Kejuruan', cls:'card-k' },
+    { id:'09', name:'Informatika',                                    type:'Mapel Kejuruan', cls:'card-k' },
+    { id:'10', name:'Projek Ilmu Pengetahuan Alam dan Sosial',        type:'Mapel Kejuruan', cls:'card-k' },
+    { id:'11', name:'Dasar-dasar Program Keahlian',                   type:'Mapel Kejuruan', cls:'card-k' },
+  ],
+  mulok: [
+    { id:'12', name:'Membatik Khas Maluku',                           type:'Muatan Lokal',   cls:'card-k', mulok:true },
+  ],
+  ledger: [
+    { id:'L1', name:'Ledger Nilai — Rekap Semua Mata Pelajaran',      type:'Ledger & Rekap', cls:'card-l', ledger:true },
+  ]
+};
+
+function buildCard(s) {
+  const ns  = s.mulok  ? 'background:#EFF6EF;color:#2D6A4F;' : '';
+  const ts  = s.mulok  ? 'color:#2D6A4F;' : '';
+  const ph  = s.ledger ? 'https://username.github.io/ledger-XMPLB/' : 'https://username.github.io/nama-repo/';
+  const lbl = s.ledger ? 'Buka Ledger' : 'Input Nilai';
+  const num = s.ledger ? '📒' : s.id;
+  return `<div class="subj-card ${s.cls}" id="card-${s.id}">
+<button class="card-edit-btn" onclick="toggleEdit('${s.id}')" aria-label="Edit link">✏️</button>
+<div class="card-row">
+  <div class="card-num" style="${ns}">${num}</div>
+  <div class="card-info">
+    <div class="card-name">${s.name}</div>
+    <div class="card-type" style="${ts}">${s.type}</div>
+  </div>
+</div>
+<div class="edit-panel" id="edit-${s.id}">
+  <label>🔗 Link GitHub Pages</label>
+  <div class="edit-panel-row">
+    <input type="url" class="edit-inp" id="inp-${s.id}" placeholder="${ph}">
+    <button class="edit-save-btn" onclick="saveLink('${s.id}')">Simpan</button>
+    <button class="edit-clear-btn" onclick="clearLink('${s.id}')">✕</button>
+  </div>
+  <div class="edit-hint">Paste link GitHub Pages — tombol Input Nilai akan langsung aktif.</div>
+</div>
+<div class="card-foot">
+  <a href="#" class="link-btn link-off" id="btn-${s.id}" target="_blank" rel="noopener">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 8h12M9 3l5 5-5 5"/></svg>
+    ${lbl}
+  </a>
+  <span class="badge badge-off" id="badge-${s.id}">Segera</span>
+</div>
+</div>`;
+}
+
+function renderAll() {
+  Object.entries(SUBJECTS).forEach(([g, list]) => {
+    const el = document.getElementById('grid-' + g);
+    if (el) el.innerHTML = list.map(buildCard).join('');
+  });
+}
+
+function loadLinks()     { try { return JSON.parse(localStorage.getItem(SK) || '{}'); } catch(e) { return {}; } }
+function saveLinks(d)    { try { localStorage.setItem(SK, JSON.stringify(d)); } catch(e) {} }
+
+function applyLink(id, url) {
+  const b = document.getElementById('btn-' + id);
+  const ba = document.getElementById('badge-' + id);
+  if (!b || !ba) return;
+  if (url) {
+    b.href = url; b.className = 'link-btn link-on';
+    b.style.pointerEvents = ''; b.style.cursor = '';
+    ba.textContent = 'Aktif ✓'; ba.className = 'badge badge-on';
+  } else {
+    b.href = '#'; b.className = 'link-btn link-off';
+    b.style.pointerEvents = 'none'; b.style.cursor = 'not-allowed';
+    ba.textContent = 'Segera'; ba.className = 'badge badge-off';
+  }
+}
+
+function toggleEdit(id) {
+  const p = document.getElementById('edit-' + id);
+  const i = document.getElementById('inp-' + id);
+  const was = p.classList.contains('open');
+  document.querySelectorAll('.edit-panel.open').forEach(x => x.classList.remove('open'));
+  if (!was) {
+    p.classList.add('open');
+    const l = loadLinks();
+    i.value = l[id] || DEFAULTS[id] || '';
+    setTimeout(() => i.focus(), 60);
+  }
+  i.onkeydown = e => {
+    if (e.key === 'Enter')  saveLink(id);
+    if (e.key === 'Escape') p.classList.remove('open');
+  };
+}
+
+function saveLink(id) {
+  const i = document.getElementById('inp-' + id);
+  let u = i.value.trim();
+  if (!u) { showToast('⚠️ Link tidak boleh kosong.'); return; }
+  if (!u.startsWith('http')) { u = 'https://' + u; i.value = u; }
+  const l = loadLinks(); l[id] = u; saveLinks(l);
+  applyLink(id, u);
+  document.getElementById('edit-' + id).classList.remove('open');
+  showPermanentInfo(id, u);
+}
+
+function showPermanentInfo(id, url) {
+  const old = document.getElementById('perm-banner'); if (old) old.remove();
+  const snip = "'" + id + "':'" + url + "',";
+  const banner = document.createElement('div');
+  banner.id = 'perm-banner';
+  banner.style.cssText = 'position:fixed;top:74px;left:50%;transform:translateX(-50%);z-index:400;background:#fff;border:1.5px solid var(--burg,#6B1F34);border-radius:16px;padding:14px 18px;max-width:92vw;width:480px;box-shadow:0 8px 32px rgba(107,31,52,.18);font-family:DM Sans,sans-serif;';
+  banner.innerHTML = '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px;"><div style="font-size:13px;font-weight:700;color:#2A1A1F;">⚠️ Link aktif di perangkat ini saja</div><button onclick="document.getElementById(\'perm-banner\').remove()" style="background:none;border:none;cursor:pointer;font-size:16px;color:#999;flex-shrink:0;line-height:1;">✕</button></div><div style="font-size:12px;color:#7A5A65;line-height:1.65;margin-bottom:10px;">Agar link aktif di <strong style="color:#2A1A1F">semua HP/laptop</strong>, tambahkan baris ini ke bagian <code style="background:#FDF0E8;padding:1px 5px;border-radius:4px;font-size:11px;">DEFAULTS</code>:</div><div style="display:flex;align-items:center;gap:8px;"><code id="snip-code" style="flex:1;background:#FDF0E8;border:1px solid #E8D0C0;border-radius:8px;padding:8px 12px;font-size:12px;color:#6B1F34;word-break:break-all;">' + snip + '</code><button onclick="navigator.clipboard.writeText(document.getElementById(\'snip-code\').textContent).then(()=>showToast(\'✅ Disalin!\'))" style="background:#6B1F34;color:#fff;border:none;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;">Salin</button></div>';
+  document.body.appendChild(banner);
+  setTimeout(() => { if (banner.parentNode) banner.remove(); }, 14000);
+}
+
+function clearLink(id) {
+  const l = loadLinks(); delete l[id]; saveLinks(l);
+  applyLink(id, DEFAULTS[id] || null);
+  if (DEFAULTS[id]) { const i = document.getElementById('inp-' + id); if (i) i.value = DEFAULTS[id]; }
+  document.getElementById('edit-' + id).classList.remove('open');
+  showToast('🗑️ Link dihapus, kembali ke default.');
+}
+
+/* ── MODAL ── */
+function openModal()  { document.getElementById('modal').classList.add('open'); setTimeout(() => document.getElementById('pwInput').focus(), 200); }
+function closeModal() { document.getElementById('modal').classList.remove('open'); document.getElementById('pwInput').value = ''; document.getElementById('modalErr').classList.remove('show'); }
+function togglePw()   { const i = document.getElementById('pwInput'), b = document.getElementById('eyeBtn'); i.type = i.type === 'password' ? 'text' : 'password'; b.textContent = i.type === 'password' ? '👁' : '🙈'; }
+function tryUnlock() {
+  const v = document.getElementById('pwInput').value, e = document.getElementById('modalErr');
+  if (v === PASS) { closeModal(); window.open(DATA_URL, '_blank'); }
+  else { e.classList.remove('show'); void e.offsetWidth; e.classList.add('show'); document.getElementById('pwInput').value = ''; document.getElementById('pwInput').focus(); }
+}
+document.getElementById('modal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ── TOAST ── */
+let tt;
+function showToast(m) {
+  const t = document.getElementById('toast');
+  t.textContent = m; t.classList.add('show');
+  clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+/* ── INIT ── */
+renderAll();
+Object.entries(DEFAULTS).forEach(([id, url]) => applyLink(id, url));
+Object.entries(loadLinks()).forEach(([id, url]) => applyLink(id, url));
+
+/* ── SCROLL ANIMATION ── */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, idx) => {
+    if (e.isIntersecting) {
+      e.target.style.transition = `opacity .45s ease ${idx * .045}s, transform .45s ease ${idx * .045}s, box-shadow .2s, border-color .2s`;
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.05 });
+document.querySelectorAll('.subj-card').forEach(c => obs.observe(c));
+</script>
+</body>
+</html>
